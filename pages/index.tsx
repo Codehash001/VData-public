@@ -242,7 +242,7 @@ export default function Home() {
         </button>
         <div>
             <div className="rounded-md mx-4 bg-black text-white px-2 py-2 mb-2 text-center flex justify-between">
-              <h1>Filter from Documents</h1><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" className='fill-white'><path d="M13 20v-4.586L20.414 8c.375-.375.586-.884.586-1.415V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.585c0 .531.211 1.04.586 1.415L11 15.414V22l2-2z"></path></svg>
+              <h1 className='mr-3'>Filter from Documents</h1><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" className='fill-white'><path d="M13 20v-4.586L20.414 8c.375-.375.586-.884.586-1.415V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.585c0 .531.211 1.04.586 1.415L11 15.414V22l2-2z"></path></svg>
             </div>
             {/* <h1 className=" text-center text-black font-bold my-3">Filter from Uploaded Documents</h1> */}
             <ul className="text-black px-4 overflow-y-auto h-[500px] custom-scrollbar">

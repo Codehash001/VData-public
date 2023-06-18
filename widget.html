@@ -1,33 +1,96 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      .main{
-        overflow: hidden;
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat bot widget</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    iframe {
+  border: none;
+}
+    
+    #popupButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+    }
+
+    #popupButton svg {
+      margin-right: 5px;
+    }
+    
+    #popupWindow {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 81%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 640px;
+      border-radius: 0.5rem;
+      background-color: white;
+      z-index: 8888;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+    }
+    
+    #closeButton {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 20px;
+      color: #aaa;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  
+  <button id="popupButton">
+    <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#000"><path d="M4 18h2v4.081L11.101 18H16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2h12c1.103 0 2 .897 2 2v8c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2z"></path></svg>
+  </button>
+  
+  <div id="popupWindow">
+    <iframe src="https://vdata-chatbot-001.onrender.com/" width="100%" height="100%"></iframe>
+  </div>
+  
+  <script>
+    var popupButton = document.getElementById("popupButton");
+    var popupWindow = document.getElementById("popupWindow");
+    var closeButton = document.getElementById("closeButton");
+    
+    popupButton.addEventListener("click", function() {
+      if (popupWindow.style.display === "none") {
+        popupWindow.style.display = "block";
+        popupButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill='#000'><path d="M8 9h8v2H8z"></path><path d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z"></path></svg>
+        `;
+      } else {
+        popupWindow.style.display = "none";
+        popupButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#000"><path d="M4 18h2v4.081L11.101 18H16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2h12c1.103 0 2 .897 2 2v8c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2z"></path></svg>
+        `;
       }
-      .col {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: end;
-        justify-items: end;
-      }
-      .widget {
-        height: 300px;
-        width: 400px;
-      }
-    </style>
-    <title>Static website</title>
-  </head>
-  <body class="main">
-      <div class="col">
-        <iframe class="widget"
-          src="https://document-ingest-ui-ppzi-main-ea6lr44mja-uc.a.run.app/"
-          style="border: none; min-height: 98vh"
-          width="100%"
-        ></iframe>
-      </div>
-  </body>
+    });
+    
+    closeButton.addEventListener("click", function() {
+      popupWindow.style.display = "none";
+      popupButton.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#000"><path d="M4 18h2v4.081L11.101 18H16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2h12c1.103 0 2 .897 2 2v8c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2z"></path></svg>
+      `;
+    });
+  </script>
+  
+</body>
 </html>
