@@ -13,7 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { question, history , selectedTempFiles , SelectedTempFilesCount } = req.body;
+  const { question, history , selectedTempFiles , SelectedTempFilesCount , filterOptionEnabled } = req.body;
 
   if (!question) {
     return res.status(400).json({ message: 'No question in the request' });
@@ -24,15 +24,27 @@ export default async function handler(
   const index = pinecone.Index(PINECONE_INDEX_NAME);
 
   /* create vectorstore*/
-  const vectorStore = await PineconeStore.fromExistingIndex(
+  let vectorStore = await PineconeStore.fromExistingIndex(
     new OpenAIEmbeddings({}),
     {
       pineconeIndex: index,
       textKey: 'text',
       namespace: PINECONE_NAME_SPACE,
-      filter: { pdf_name: { $in: selectedTempFiles } },
     },
   );
+
+  if (filterOptionEnabled) {
+    vectorStore = await PineconeStore.fromExistingIndex(
+      new OpenAIEmbeddings({}),
+      {
+        pineconeIndex: index,
+        textKey: 'text',
+        namespace: PINECONE_NAME_SPACE,
+        filter: { pdf_name: { $in: selectedTempFiles } },
+      },
+    );
+  }
+  
 
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
@@ -47,7 +59,12 @@ export default async function handler(
   sendData(JSON.stringify({ data: '' }));
 
   //create chain
-  const chain = makeChain(vectorStore, SelectedTempFilesCount, (token: string) => {
+
+  let numberOfselectedFiles = 4 ;
+  if (filterOptionEnabled){
+    numberOfselectedFiles = SelectedTempFilesCount
+  }
+  const chain = makeChain(vectorStore, numberOfselectedFiles, (token: string) => {
     sendData(JSON.stringify({ data: token }));
   });
 

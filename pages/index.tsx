@@ -101,6 +101,7 @@ export default function Home() {
           history,
           selectedTempFiles,
           SelectedTempFilesCount,
+          filterOptionEnabled,
         }),
         signal: ctrl.signal,
         onmessage: (event) => {
@@ -230,6 +231,26 @@ export default function Home() {
     setNav(!nav);
   };
 
+  const [filterOptionEnabled, setFilterOptionEnabled] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/filterControl');
+        const data = await response.json();
+        setFilterOptionEnabled(!(data.filterEnabled));
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Perform some action with the boolean value
+  console.log('Received boolean value:', filterOptionEnabled);
+
+
   return (
     <> 
     <div className='flex flex-row'>
@@ -268,35 +289,42 @@ export default function Home() {
       </div>
 
       {/* end mobile nav */}
-    <div className="hidden md:flex h-screen w-[400px] bg-slate-200 px-4 py-10  md:flex-col justify-between space-y-5">
+
+      {filterOptionEnabled ?
+      <>
+            <div className="hidden md:flex h-screen w-[400px] bg-slate-200 px-4 py-10  md:flex-col justify-between space-y-5">
                 
 
-            <div>
-            <div className="rounded-md mx-4 bg-black text-white px-2 py-2 mb-2 text-center">Filter from Documents</div>
-            {/* <h1 className=" text-center text-black font-bold my-3">Filter from Uploaded Documents</h1> */}
-            <ul className="text-black px-4 overflow-y-auto h-[500px] custom-scrollbar">
-        {allfiles.map((file) => (
-          <li className="space-x-6 flex items-center my-1 justify-between border-b-2 border-gray-300 py-1" key={file}>
-            <div className="font-semibold md:text-[13px]">
-            <input
-            type="checkbox"
-            checked={selectedTempFiles.includes(file)}
-            onChange={() => handleCheckboxChange(file)}
-            className="mr-2"
-          />
-          {file}{" "}
+                <div>
+                <div className="rounded-md mx-4 bg-black text-white px-2 py-2 mb-2 text-center">Filter from Documents</div>
+                {/* <h1 className=" text-center text-black font-bold my-3">Filter from Uploaded Documents</h1> */}
+                <ul className="text-black px-4 overflow-y-auto h-[500px] custom-scrollbar">
+            {allfiles.map((file) => (
+              <li className="space-x-6 flex items-center my-1 justify-between border-b-2 border-gray-300 py-1" key={file}>
+                <div className="font-semibold md:text-[13px]">
+                <input
+                type="checkbox"
+                checked={selectedTempFiles.includes(file)}
+                onChange={() => handleCheckboxChange(file)}
+                className="mr-2"
+              />
+              {file}{" "}
+                </div>
+              </li>
+            ))}
+          </ul>
+                </div>
+    
+                <div className="flex flex-row justify-center mt-5">
+                    {/* <Link href="/ingest">
+                    <div className="rounded-md mx-4 bg-blue-400 text-white px-4 py-2 mb-2 hover:bg-blue-500">Ingest more documents</div>
+                    </Link> */}
+                </div>
             </div>
-          </li>
-        ))}
-      </ul>
-            </div>
-
-            <div className="flex flex-row justify-center mt-5">
-                {/* <Link href="/ingest">
-                <div className="rounded-md mx-4 bg-blue-400 text-white px-4 py-2 mb-2 hover:bg-blue-500">Ingest more documents</div>
-                </Link> */}
-            </div>
-        </div>
+      </>
+    :
+    <>
+    </>}
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <div className='w-full flex flex-row justify-between md:justify-center p-4 items-center'>

@@ -6,6 +6,9 @@ import path from "path";
 import Link from "next/link";
 import { run } from "@/scripts/ingest-data";
 
+import Switch from '@mui/material/Switch';
+import React from "react";
+
 interface Props {
   dirs: string[];
   files : string [];
@@ -41,6 +44,29 @@ const Home: NextPage<Props> = ({ files  }) => {
       setErrorMessage('Incorrect email or password')
     }
   }
+
+  const [checkedFilterOption, setCheckedFilterOption] = useState(false);
+
+  const handleChangeFilter = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedFilterOption(event.target.checked);
+
+    try {
+      const response = await fetch('/api/filterControl', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ checkedFilterOption }),
+      });
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    console.log('checkedFilterOption' , checkedFilterOption)
+  };
+
 
   const handleFileSelection = (files: FileList) => {
     setApiResponse('')
@@ -420,7 +446,15 @@ const copyFiles = async (selectedTempoFiles: any) => {
         <button className="px-10 py-8 bg-red-300 text-black" onClick={copyFilesToTempFolderonClick}>
           Upload To temp
         </button> */}
-        <div>
+        <div className="flex flex-col space-y-2">
+          <div className="flex space-x-2 items-center">
+            <h1 className="text-sm text-black font-medium">Allow filter option for users</h1>
+            <Switch
+            checked={checkedFilterOption}
+            onChange={handleChangeFilter}
+            inputProps={{ 'aria-label': 'controlled' }}
+            />
+          </div>
           <h1 className="text-black italic font-medium">{apiRespone}</h1>
         </div>
        </div>
