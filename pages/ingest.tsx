@@ -45,7 +45,7 @@ const Home: NextPage<Props> = ({ files  }) => {
     }
   }
 
-  const [checkedFilterOption, setCheckedFilterOption] = useState(false);
+  const [checkedFilterOption, setCheckedFilterOption] = useState(true);
 
   const handleChangeFilter = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedFilterOption(event.target.checked);
