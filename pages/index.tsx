@@ -261,7 +261,8 @@ export default function Home() {
         <button onClick={handleNav} className='absolute top-0 right-0 bg-blue-400 p-2 w-8 h-8 flex items-center justify-center'>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" className='fill-black'><path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path></svg>
         </button>
-        <div>
+        {filterOptionEnabled ? <>
+          <div>
             <div className="rounded-md mx-4 bg-black text-white px-2 py-2 mb-2 text-center flex justify-between">
               <h1 className='mr-3'>Filter from Documents</h1><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" className='fill-white'><path d="M13 20v-4.586L20.414 8c.375-.375.586-.884.586-1.415V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.585c0 .531.211 1.04.586 1.415L11 15.414V22l2-2z"></path></svg>
             </div>
@@ -282,6 +283,11 @@ export default function Home() {
         ))}
       </ul>
             </div>
+        </>
+        :
+        <>
+        <h1 className=' text-center font-semibold'>Filter option is unavailable!</h1>
+        </>}
             <div className="flex flex-row w-full justify-center mt-5">
                 <button onClick={handleNav} className="rounded-md mx-4 bg-blue-400 text-white px-4 py-2 mb-2 hover:bg-blue-500">Done</button>
             </div>
