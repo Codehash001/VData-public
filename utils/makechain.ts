@@ -31,7 +31,7 @@ const QA_PROMPT = PromptTemplate.fromTemplate(
 
 export const makeChain = (
   vectorstore: PineconeStore,
-  SelectedTempFilesCount : number,
+  numberOfselectedFiles : number,
   onTokenStream?: (token: string) => void,
 ) => {
   const questionGenerator = new LLMChain({
@@ -60,6 +60,6 @@ export const makeChain = (
     combineDocumentsChain: docChain,
     questionGeneratorChain: questionGenerator,
     returnSourceDocuments: true,
-    k: SelectedTempFilesCount, //number of source documents to return
+    k: numberOfselectedFiles, //number of source documents to return
   });
 };

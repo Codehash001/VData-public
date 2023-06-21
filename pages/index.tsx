@@ -283,14 +283,15 @@ export default function Home() {
         ))}
       </ul>
             </div>
-        </>
-        :
-        <>
-        <h1 className=' text-center font-semibold'>Filter option is unavailable!</h1>
-        </>}
+
             <div className="flex flex-row w-full justify-center mt-5">
                 <button onClick={handleNav} className="rounded-md mx-4 bg-blue-400 text-white px-4 py-2 mb-2 hover:bg-blue-500">Done</button>
             </div>
+        </>
+        :
+        <>
+        <h1 className=' text-center font-semibold'>QA Chatbot for custom docs</h1>
+        </>}
             
       </div>
 
@@ -402,7 +403,7 @@ export default function Home() {
                               <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
-                                    <h3>Source {index + 1}</h3>
+                                    <h3>Source</h3>
                                   </AccordionTrigger>
                                   <AccordionContent>
                                     {/* <ReactMarkdown linkTarget="_blank">

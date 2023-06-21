@@ -60,7 +60,7 @@ export default async function handler(
 
   //create chain
 
-  let numberOfselectedFiles = 4 ;
+  let numberOfselectedFiles = 1 ;
   if (filterOptionEnabled){
     numberOfselectedFiles = SelectedTempFilesCount
   }
