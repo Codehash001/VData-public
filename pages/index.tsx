@@ -231,24 +231,30 @@ export default function Home() {
     setNav(!nav);
   };
 
-  const [filterOptionEnabled, setFilterOptionEnabled] = useState(true);
+  const [filterOptionEnabled, setFilterOptionEnabled] = useState(Boolean);
 
   useEffect(() => {
+    let fetchCount = 0;
+    const maxFetchCount = 10;
+  
     const fetchData = async () => {
       try {
         const response = await fetch('/api/filterControl');
         const data = await response.json();
-        setFilterOptionEnabled(!(data.filterEnabled));
+        setFilterOptionEnabled(data.filterEnabled);
       } catch (error) {
         console.error('Error:', error);
+      } finally {
+        fetchCount++;
+        if (fetchCount < maxFetchCount) {
+          setTimeout(fetchData, 1000); // Fetch again after 1 second
+        }
       }
     };
-
+  
     fetchData();
   }, []);
-
-  // Perform some action with the boolean value
-  console.log('Received boolean value:', filterOptionEnabled);
+  
 
 
   return (
@@ -384,45 +390,37 @@ export default function Home() {
                         {icon}
                         <div className={styles.markdownanswer}>
                           <div dangerouslySetInnerHTML={{
-                __html: message.message.replaceAll("\n", "<br />"),
+                __html: message.message.replaceAll("\n", "<br/>"),
               }} />
                             {/* {message.message} */}
                         </div>
                       </div>
-                      {message.sourceDocs && (
-                        <div
-                          className="p-5"
-                          key={`sourceDocsAccordion-${index}`}
-                        >
-                          <Accordion
-                            type="single"
-                            collapsible
-                            className="flex-col"
-                          >
-                            {message.sourceDocs.map((doc, index) => (
-                              <div key={`messageSourceDocs-${index}`}>
-                                <AccordionItem value={`item-${index}`}>
-                                  <AccordionTrigger>
-                                    <h3>Source</h3>
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    {/* <ReactMarkdown linkTarget="_blank">
-                                      {doc.pageContent}
-                                    </ReactMarkdown> */}
-                                    <p className="mt-2">
-                                      <b>Source:</b> <a href={`/docs/${doc.metadata.pdf_name}`} target="_blank">{doc.metadata.pdf_name}</a>
-                                    </p>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              </div>
-                            ))}
-                          </Accordion>
-                        </div>
-                      )}
+                      {message.sourceDocs && message.sourceDocs.length > 0 && (
+  <div className="p-5">
+    <Accordion type="single" collapsible className="flex-col">
+      <div>
+        <AccordionItem value="item-0">
+          <AccordionTrigger>
+            <h3>Source</h3>
+          </AccordionTrigger>
+          <AccordionContent>
+            {/* <ReactMarkdown linkTarget="_blank">
+              {message.sourceDocs[0].pageContent}
+            </ReactMarkdown> */}
+            <p className="mt-2">
+              <b>Source:</b> {message.sourceDocs[0].metadata.pdf_name}
+            </p>
+          </AccordionContent>
+        </AccordionItem>
+      </div>
+    </Accordion>
+  </div>
+)}
+
                     </>
                   );
                 })}
-                {sourceDocs.length > 0 && (
+                {/* {sourceDocs.length > 0 && (
                   <div className="p-5">
                     <Accordion type="single" collapsible className="flex-col">
                       {sourceDocs.map((doc, index) => (
@@ -441,7 +439,7 @@ export default function Home() {
                       ))}
                     </Accordion>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
             <div className={styles.center}>

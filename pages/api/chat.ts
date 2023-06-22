@@ -60,9 +60,9 @@ export default async function handler(
 
   //create chain
 
-  let numberOfselectedFiles = 1 ;
+  let numberOfselectedFiles = 6 ;
   if (filterOptionEnabled){
-    numberOfselectedFiles = SelectedTempFilesCount
+    numberOfselectedFiles = SelectedTempFilesCount * 4
   }
   const chain = makeChain(vectorStore, numberOfselectedFiles, (token: string) => {
     sendData(JSON.stringify({ data: token }));

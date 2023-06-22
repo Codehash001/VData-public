@@ -6,7 +6,7 @@ import path from "path";
 import Link from "next/link";
 import { run } from "@/scripts/ingest-data";
 
-import Switch from '@mui/material/Switch';
+import Switch from "react-switch";
 import React from "react";
 
 interface Props {
@@ -45,27 +45,28 @@ const Home: NextPage<Props> = ({ files  }) => {
     }
   }
 
-  const [checkedFilterOption, setCheckedFilterOption] = useState(true);
+  const [checkedFilterOption, setCheckedFilterOption] = useState<boolean>(false);
+  useEffect(() => {
+    console.log('checkedFilterOption', checkedFilterOption);
+  }, [checkedFilterOption]);
 
-  const handleChangeFilter = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedFilterOption(event.target.checked);
-
-    try {
+  const handleChangeFilter = async (newChecked : boolean) => {
+    setCheckedFilterOption(newChecked);
+    console.log('checkedFilterOption new', newChecked);
+       try {
       const response = await fetch('/api/filterControl', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ checkedFilterOption }),
+        body: JSON.stringify({ checkedFilterOption : newChecked }),
       });
       const data = await response.json();
       console.log(data.message);
     } catch (error) {
       console.error('Error:', error);
     }
-
-    console.log('checkedFilterOption' , checkedFilterOption)
-  };
+  }
 
 
   const handleFileSelection = (files: FileList) => {
@@ -450,10 +451,10 @@ const copyFiles = async (selectedTempoFiles: any) => {
           <div className="flex space-x-2 items-center">
             <h1 className="text-sm text-black font-medium">Allow filter option for users</h1>
             <Switch
-            checked={checkedFilterOption}
-            onChange={handleChangeFilter}
-            inputProps={{ 'aria-label': 'controlled' }}
-            />
+          onChange={handleChangeFilter}
+          checked={checkedFilterOption}
+          className="react-switch"
+        />
           </div>
           <h1 className="text-black italic font-medium">{apiRespone}</h1>
         </div>
