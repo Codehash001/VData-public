@@ -19,7 +19,7 @@ Follow Up Input: {question}
 Standalone question:`);
 
 const QA_PROMPT = PromptTemplate.fromTemplate(
-  `You are a helpful AI assistant. Use the following pieces of context to answer the question at the end.\n Please provide a well-described answer with full details in context. The answer should be well-structured and spaced as an article.\nIf the answer is a list provide well-ordered numeric list like 1\n 2\n 3\n \n
+  `You are a helpful AI assistant. Use the following pieces of context to answer the question at the end.\n Please provide a well-described answer with full details in context. The answer should be well-structured and spaced as an article.\nIf the answer is a list provide well-ordered numeric list like 1\n 2\n 3\n \n If there is a list inside those list use lower-case ltters for those \n
   If you don't know the answer, just say you don't know. DO NOT try to make up an answer.\n
   If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.\n
   
